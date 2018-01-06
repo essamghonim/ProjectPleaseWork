@@ -78,9 +78,11 @@ var app = express();
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
 
-// Parse Server plays nicely with the rest of your web routes
-app.get('/', function(req, res) {
-  res.status(200).send('I dream of being a web site.');
+app.use(express.static(__dirname+'/public'));
+app.set('views', __dirname + '/public');
+
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 var port = process.env.PORT || 1337;
